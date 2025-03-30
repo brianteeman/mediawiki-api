@@ -339,7 +339,6 @@ class Users extends AbstractMediawikiObject
         $path = '?action=unblock';
 
         // Build the request data.
-        // TODO: $data doesn't seem to be used!
         $data = [
             'id'     => $id,
             'token'  => $token,
@@ -347,7 +346,7 @@ class Users extends AbstractMediawikiObject
         ];
 
         // Send the request.
-        $response = $this->client->get($this->fetchUrl($path));
+        $response = $this->client->post($this->fetchUrl($path), $data);
 
         return $this->validateResponse($response);
     }
