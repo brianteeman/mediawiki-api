@@ -48,8 +48,8 @@ class Users extends AbstractMediawikiObject
 
         // Set the session cookies returned.
         $headers           = (array) $this->options->get('headers');
-        $headers['Cookie'] = !empty($headers['Cookie']) ? empty($headers['Cookie']) : '';
-        $headers['Cookie'] = $headers['Cookie'] . $response->headers['Set-Cookie'];
+        $headers['Cookie'] = $headers['Cookie'] ?? '';
+        $headers['Cookie'] .= $response->getHeaders()['Set-Cookie'];
         $this->options->set('headers', $headers);
 
         // Send the request again with the token.
@@ -333,7 +333,7 @@ class Users extends AbstractMediawikiObject
     public function unBlockUserByID($id, $reason = null)
     {
         // Get the token.
-        $token = $this->getToken($id, 'unblock');
+        $token = $this->getToken((string) $id, 'unblock');
 
         // Build the request path.
         $path = '?action=unblock';
